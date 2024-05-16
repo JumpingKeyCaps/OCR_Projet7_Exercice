@@ -104,7 +104,7 @@ abstract class AppDatabase : RoomDatabase() {
 
             userDao.insertUser(
                 UserDto(
-                    nom = "Bob", email = "Bob@test.test", password = "XCweqcuinwuweiu324nedfis23uin"
+                    nom = "John Dob", email = "johndob@test.test", password = "XCweqcuinwuweiu324nedfis23uin"
                 )
             )
 
