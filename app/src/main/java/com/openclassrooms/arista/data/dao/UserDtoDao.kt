@@ -34,7 +34,7 @@ interface UserDtoDao {
      * @param id the user dto id to get.
      * @return a Flow of the user object.
      */
-    @Query("SELECT * FROM user")
+    @Query("SELECT * FROM user WHERE id = :id")
     fun getUserById(id:Long): Flow<UserDto>
 
 
