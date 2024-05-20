@@ -1,8 +1,6 @@
 package com.openclassrooms.arista
 
 import com.openclassrooms.arista.data.repository.SleepRepository
-import com.openclassrooms.arista.domain.model.Exercise
-import com.openclassrooms.arista.domain.model.ExerciseCategory
 import com.openclassrooms.arista.domain.model.Sleep
 import com.openclassrooms.arista.domain.usecase.GetAllSleepsUseCase
 import junit.framework.TestCase
