@@ -12,6 +12,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for the User Data.
+ */
 @HiltViewModel
 class UserDataViewModel @Inject constructor(private val getUserUsecase: GetUserUsecase) :
     ViewModel() {
@@ -22,6 +25,9 @@ class UserDataViewModel @Inject constructor(private val getUserUsecase: GetUserU
         loadUserData()
     }
 
+    /**
+     * Method to load the user data.
+     */
     private fun loadUserData() {
         viewModelScope.launch(Dispatchers.IO) {
             val user = getUserUsecase.execute()
