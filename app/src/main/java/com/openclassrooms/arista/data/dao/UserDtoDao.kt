@@ -23,26 +23,12 @@ interface UserDtoDao {
 
 
     /**
-     * Method to GET all user.
-     * @return a Flow of the users List
+     * Method to GET the user.
+     * @return a Flow of the users
      */
-    @Query("SELECT * FROM user")
-    fun getAllUser(): Flow<List<UserDto>>
+    @Query("SELECT * FROM user LIMIT 1 OFFSET 0")
+    fun getAllUser(): Flow<UserDto>
 
-
-    // ----
-    /**
-     *
-     *
-     *  Filtrage directement a la requete SQL
-     *
-     *     @Query("SELECT * FROM user LIMIT 1 OFFSET 0")
-     *     fun getAllUser(): Flow<UserDto>
-     *
-     *
-     *
-     */
-    // ----
 
 
     /**
