@@ -1,12 +1,9 @@
 package com.openclassrooms.arista.data.repository
 
 import com.openclassrooms.arista.data.dao.UserDtoDao
+import com.openclassrooms.arista.data.entity.UserDto
 import com.openclassrooms.arista.domain.model.User
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 /**
@@ -20,20 +17,23 @@ class UserRepository @Inject constructor(private val userDao: UserDtoDao) {
     /**
      * Method to get the current user.
      *
-     * use flatMap to handle the Flow of Users list returned by userDao
-     * Inside flatMap, we convert the list to a flow (asFlow())
-     * Then, we map each user object within the Flow to a User? object using User.fromDto(it)
-     *
-     * This will result in a Flow that emits the user objects from the lists retrieved from the DAO
-     *
-     * @return a Flow of the User object.
+     * @return a Flow of the User dto object.
      *
      */
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun getUser(): Flow<User?> {
-        return userDao.getAllUser().flatMapConcat { userList ->
-            userList.asFlow().map { User.fromDto(it) }
-        }
+    fun getUser(): Flow<UserDto?> {
+        return userDao.getAllUser()
+    }
+
+
+    /**
+     * Method to get the user by ID.
+     *
+     * @param userId the user ID to get
+     * @return a Flow of the User dto object.
+     *
+     */
+    fun getUserById(userId:Long): Flow<UserDto?> {
+        return userDao.getUserById(userId)
     }
 
 
