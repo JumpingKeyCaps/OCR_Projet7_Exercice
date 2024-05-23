@@ -100,13 +100,19 @@ abstract class AppDatabase : RoomDatabase() {
             )
 
 
-            //Prepopulate with a default User
+            //Prepopulate with  a default user and custom user
+            userDao.insertUser(
+                UserDto(
+                    nom = "Tom Default", email = "tomdefault@test.test", password = "SdRRTq7627u324ne099hqq90in"
+                )
+            )
 
             userDao.insertUser(
                 UserDto(
-                  id = 19,  nom = "John Dab", email = "johndob@test.test", password = "XCweqcuinwuweiu324nedfis23uin"
+                    id = 5,  nom = "John Custom", email = "johncustom@test.test", password = "XCweqcuinwuweiu324nedfis23uin"
                 )
             )
+
 
 
         }
