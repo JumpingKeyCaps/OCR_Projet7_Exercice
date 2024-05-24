@@ -2,6 +2,7 @@ package com.openclassrooms.arista.ui.sleep
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.openclassrooms.arista.data.DefaultUserConfig.Companion.USER_ID
 import com.openclassrooms.arista.domain.model.Sleep
 import com.openclassrooms.arista.domain.usecase.GetAllSleepsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,19 +10,29 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * The ViewModel for the Sleep Section
+ */
 @HiltViewModel
 class SleepViewModel @Inject constructor(private val getAllSleepsUseCase: GetAllSleepsUseCase) :
     ViewModel() {
     private val _sleeps = MutableStateFlow<List<Sleep>>(emptyList())
     val sleeps: StateFlow<List<Sleep>> = _sleeps.asStateFlow()
 
+    /**
+     * Method to fetch the sleep records of the user
+     */
     fun fetchSleeps() {
         viewModelScope.launch(Dispatchers.IO) {
-            val sleepList = getAllSleepsUseCase.execute()
-            _sleeps.value = sleepList
+            val flow = getAllSleepsUseCase.execute(USER_ID)
+            // Get the User from the use case returned flow.
+            val sleepList =  flow.first().map {Sleep.fromDto(it)}
+            _sleeps.value = sleepList // update the stateflow for the fragment
+
         }
     }
 }
