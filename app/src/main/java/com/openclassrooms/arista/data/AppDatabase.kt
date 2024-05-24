@@ -83,27 +83,10 @@ abstract class AppDatabase : RoomDatabase() {
          * @param userDao the user Dao to use.
          */
         suspend fun populateDatabase(sleepDao: SleepDtoDao, userDao: UserDtoDao) {
-
-
-            //Prepopulate with Sleep session
-            sleepDao.insertSleep(
-                SleepDto(
-                    startTime = LocalDateTime.now().minusDays(1).atZone(ZoneOffset.UTC).toInstant()
-                        .toEpochMilli(), duration = 480, quality = 4
-                )
-            )
-            sleepDao.insertSleep(
-                SleepDto(
-                    startTime = LocalDateTime.now().minusDays(2).atZone(ZoneOffset.UTC).toInstant()
-                        .toEpochMilli(), duration = 450, quality = 3
-                )
-            )
-
-
             //Prepopulate with  a default user and custom user
             userDao.insertUser(
                 UserDto(
-                    nom = "Tom Default", email = "tomdefault@test.test", password = "SdRRTq7627u324ne099hqq90in"
+                    id = 1, nom = "Tom Default", email = "tomdefault@test.test", password = "SdRRTq7627u324ne099hqq90in"
                 )
             )
 
@@ -112,6 +95,32 @@ abstract class AppDatabase : RoomDatabase() {
                     id = 5,  nom = "John Custom", email = "johncustom@test.test", password = "XCweqcuinwuweiu324nedfis23uin"
                 )
             )
+
+            //Prepopulate with Sleep session
+
+            //sleep of default user
+            sleepDao.insertSleep(
+                SleepDto(
+                    startTime = LocalDateTime.now().minusDays(1).atZone(ZoneOffset.UTC).toInstant()
+                        .toEpochMilli(), duration = 480, quality = 4, ownerId = 1
+                 )
+            )
+            sleepDao.insertSleep(
+                SleepDto(
+                    startTime = LocalDateTime.now().minusDays(1).atZone(ZoneOffset.UTC).toInstant()
+                        .toEpochMilli(), duration = 60, quality = 1, ownerId = 1
+                )
+            )
+            //sleep of custom user
+            sleepDao.insertSleep(
+                SleepDto(
+                    startTime = LocalDateTime.now().minusDays(2).atZone(ZoneOffset.UTC).toInstant()
+                        .toEpochMilli(), duration = 150, quality = 3, ownerId = 5
+                )
+            )
+
+
+
 
 
 
