@@ -13,13 +13,14 @@ data class Sleep(
      * Methode to convert an sleep object to an sleep Dto
      * @return an sleepDto
      */
-    fun toDto(): SleepDto {
+    fun toDto(userId: Long): SleepDto {
         //convert startime from LocalDateTime to  a Long
         val startTimeInMillis = (startTime.atZone(ZoneId.systemDefault()).toInstant()).toEpochMilli()
         return SleepDto(
             startTime = startTimeInMillis,
             duration = this.duration,
-            quality = this.quality
+            quality = this.quality,
+            ownerId = userId
         )
     }
 
@@ -35,8 +36,6 @@ data class Sleep(
         fun fromDto(dto: SleepDto): Sleep {
             val instant = Instant.ofEpochMilli(dto.startTime)
             val localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
-
-
             return Sleep(localDateTime, dto.duration, dto.quality)
         }
 
