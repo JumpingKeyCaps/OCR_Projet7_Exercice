@@ -2,6 +2,7 @@ package com.openclassrooms.arista.data.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 /**
@@ -9,11 +10,12 @@ import androidx.room.PrimaryKey
  *  Data Class used by Room to create the sleep DataBase table and ease the CRUD operation on it.
  */
 
-@Entity(tableName = "sleep")
+
+@Entity(tableName = "sleep",foreignKeys = [ForeignKey(entity = UserDto::class, parentColumns = ["id"], childColumns = ["owner_id"])])
 data class SleepDto (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    var id: Long = 0,
+    var sleepid: Long = 0,
 
 
     @ColumnInfo(name = "start_time")
@@ -27,6 +29,6 @@ data class SleepDto (
     @ColumnInfo(name = "quality")
     var quality: Int,
 
-
-
+    @ColumnInfo(name = "owner_id",index = true)
+    var ownerId: Long = 0,
 )
