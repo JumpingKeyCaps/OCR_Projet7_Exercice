@@ -1,24 +1,33 @@
 package com.openclassrooms.arista.data.repository
 
 import com.openclassrooms.arista.data.dao.SleepDtoDao
+import com.openclassrooms.arista.data.entity.SleepDto
 import com.openclassrooms.arista.domain.model.Sleep
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.Flow
 
+/**
+ * Repository for the Sleep records
+ */
 class SleepRepository(private val sleepDao: SleepDtoDao) {
 
-    // Get all sleep records
-    suspend fun getAllSleep(): List<Sleep> {
-        return sleepDao.getAllSleep()
-            .first() // Collect the first emission of the Flow
-            .map { Sleep.fromDto(it)} // Convert every DTO in sleep
+    /**
+     * Method to get All sleep record of an user.
+     *
+     * @param userId the user id to use.
+     * @return a flow list of SleepDto
+     */
+    fun getAllSleep(userId: Long): Flow<List<SleepDto>>{
+        return sleepDao.getAllSleep(userId)
     }
 
-
-    // Add a new Sleep record
-    suspend fun addSleep(sleep: Sleep) {
-        sleepDao.insertSleep(sleep.toDto())
+    /**
+     * Method to add a new sleep record for an user.
+     *
+     * @param sleep the sleep object to add.
+     * @param userId the user id to use.
+     */
+    suspend fun addSleep(sleep: Sleep,userId: Long) {
+        sleepDao.insertSleep(sleep.toDto(userId))
     }
-
-
 
 }
