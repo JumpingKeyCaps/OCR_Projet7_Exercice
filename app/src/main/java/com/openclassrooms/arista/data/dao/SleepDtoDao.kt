@@ -23,11 +23,12 @@ interface SleepDtoDao {
 
 
     /**
-     * Method to GET all sleep.
+     * Method to GET all sleep for a specific user id.
+     * @param userId the user id.
      * @return a Flow of the sleep List
      */
-    @Query("SELECT * FROM sleep")
-    fun getAllSleep(): Flow<List<SleepDto>>
+    @Query("SELECT * FROM sleep WHERE owner_id = :userId")
+    fun getAllSleep(userId: Long): Flow<List<SleepDto>>
 
     /**
      * Method to DELETE a sleep.
