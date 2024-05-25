@@ -14,25 +14,15 @@ import javax.inject.Inject
  */
 class UserRepository @Inject constructor(private val userDao: UserDtoDao) {
 
-    /**
-     * Method to get the current user.
-     *
-     * @return a Flow of the User dto object.
-     *
-     */
-    fun getUser(): Flow<UserDto?> {
-        return userDao.getAllUser()
-    }
-
 
     /**
-     * Method to get the user by ID.
+     * Method to get the user by his id.
      *
      * @param userId the user ID to get
      * @return a Flow of the User dto object.
      *
      */
-    fun getUserById(userId:Long): Flow<UserDto?> {
+    fun getUser(userId:Long): Flow<UserDto?> {
         return userDao.getUserById(userId)
     }
 
@@ -41,10 +31,11 @@ class UserRepository @Inject constructor(private val userDao: UserDtoDao) {
      * Method to add an new user.
      *
      * @param user  the new user object to add.
+     * @param userId (optional) the custom id to use for the new user.
      *
      */
-    suspend fun addUser(user: User) {
-        userDao.insertUser(user.toDto())
+    suspend fun addUser(user: User, userId: Long? = null) {
+        userDao.insertUser(user.toDto(userId))
     }
 
 
