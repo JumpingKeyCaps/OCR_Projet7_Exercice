@@ -23,10 +23,11 @@ interface ExerciseDtoDao {
 
     /**
      * Method to GET all exercise.
-     * @return a Flow of the exercises List
+     * @param ownerId the user id.
+     * @return a Flow of the exercises List for an user
      */
-    @Query("SELECT * FROM exercise")
-    fun getAllExercises(): Flow<List<ExerciseDto>>
+    @Query("SELECT * FROM exercise WHERE owner_id = :ownerId")
+    fun getAllExercises(ownerId: Long): Flow<List<ExerciseDto>>
 
     /**
      * Method to DELETE an exercise.
