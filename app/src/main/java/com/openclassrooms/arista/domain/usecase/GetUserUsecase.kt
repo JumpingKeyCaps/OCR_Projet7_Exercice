@@ -12,20 +12,13 @@ class GetUserUsecase @Inject constructor(private val userRepository: UserReposit
 
     /**
      * Method to get the current user from the User Repository.
-     *
-     * @return a User Object
+     * by default or by ID
+     * @param id optional userid
+     * @return a UserDto Object flow
      **/
-     fun execute(): Flow<UserDto?> {
-        return userRepository.getUser()
+    fun execute(id: Long): Flow<UserDto?> {
+        return userRepository.getUser(id)
     }
 
-    /**
-     * Method to get the current user via the user ID.
-     *
-     * @param id the user id to load
-     * @return a User Object
-     **/
-     fun execute(id: Long): Flow<UserDto?> {
-        return userRepository.getUserById(id)
-    }
+
 }
