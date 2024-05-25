@@ -10,7 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,10 +28,10 @@ class SleepViewModel @Inject constructor(private val getAllSleepsUseCase: GetAll
     fun fetchSleeps() {
         viewModelScope.launch(Dispatchers.IO) {
             val flow = getAllSleepsUseCase.execute(USER_ID)
-            // Get the User from the use case returned flow.
-            val sleepList =  flow.first().map {Sleep.fromDto(it)}
-            _sleeps.value = sleepList // update the stateflow for the fragment
-
+            flow.collect { sleepDtos ->
+                val sleeps = sleepDtos.map { Sleep.fromDto(it) }
+                _sleeps.value = sleeps
+            }
         }
     }
 }
