@@ -22,6 +22,7 @@ interface UserDtoDao {
     suspend fun insertUser(user: UserDto): Long
 
 
+
     /**
      * Method to GET an user by ID.
      * @param id the user dto id to get.
