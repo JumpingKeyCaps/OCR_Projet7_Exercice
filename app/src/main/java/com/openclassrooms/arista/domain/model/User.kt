@@ -2,6 +2,7 @@ package com.openclassrooms.arista.domain.model
 import com.openclassrooms.arista.data.entity.UserDto
 
 data class User(
+    var id: Long,
     var name: String,
     var email: String,
     var password: String){
@@ -10,15 +11,17 @@ data class User(
 
     /**
      * Methode to convert an User object to an User Dto
+     * @param userId (optional) to set a custom Id for the user
      * @return an userDto
      */
-    fun toDto(): UserDto {
-      return UserDto(
-          nom = this.name,
-          email = this.email,
-          password = this.password
-        )
+    fun toDto(userId: Long? = null): UserDto {
+      return if(userId == null){
+          UserDto(nom = this.name, email = this.email, password = this.password)
+      }else{
+          UserDto(id = this.id, nom = this.name, email = this.email, password = this.password)
+      }
     }
+
 
     companion object {
         /**
@@ -27,7 +30,7 @@ data class User(
          * @return an user object.
          */
         fun fromDto(dto: UserDto): User {
-            return User(dto.nom,dto.email,dto.password)
+            return User(dto.id,dto.nom,dto.email,dto.password)
         }
     }
 
