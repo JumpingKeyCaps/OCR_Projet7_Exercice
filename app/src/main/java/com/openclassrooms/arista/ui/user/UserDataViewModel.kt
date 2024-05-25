@@ -2,7 +2,6 @@ package com.openclassrooms.arista.ui.user
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.openclassrooms.arista.data.DefaultUserConfig
 import com.openclassrooms.arista.data.DefaultUserConfig.Companion.USER_ID
 import com.openclassrooms.arista.domain.model.User
 import com.openclassrooms.arista.domain.usecase.GetUserUsecase
