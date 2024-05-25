@@ -2,6 +2,7 @@ package com.openclassrooms.arista.data.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 
@@ -10,7 +11,7 @@ import androidx.room.PrimaryKey
  *  Data Class used by Room to create the exercise DataBase table and ease the CRUD operation on it.
  */
 
-@Entity(tableName = "exercise")
+@Entity(tableName = "exercise",foreignKeys = [ForeignKey(entity = UserDto::class, parentColumns = ["id"], childColumns = ["owner_id"])])
 data class ExerciseDto (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -30,6 +31,9 @@ data class ExerciseDto (
 
 
     @ColumnInfo(name = "intensity")
-    var intensity: Int
+    var intensity: Int,
+
+    @ColumnInfo(name = "owner_id",index = true)
+    var ownerId: Long
 
 )
