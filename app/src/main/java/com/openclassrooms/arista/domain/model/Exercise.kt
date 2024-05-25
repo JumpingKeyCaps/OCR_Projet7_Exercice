@@ -19,7 +19,7 @@ data class Exercise(
      * Methode to convert an Exercise object to an Exercise Dto
      * @return an exerciseDto
      */
-    fun toDto(): ExerciseDto {
+    fun toDto(userId: Long): ExerciseDto {
         //convert startime from LocalDateTime to  a Long
         val startTimeInMillis = (startTime.atZone(ZoneId.systemDefault()).toInstant()).toEpochMilli()
         return ExerciseDto(
@@ -27,7 +27,8 @@ data class Exercise(
             startTime = startTimeInMillis,
             duration = this.duration,
             category = this.category.toString(), // Convert ExerciseCategory to String
-            intensity = this.intensity
+            intensity = this.intensity,
+            ownerId = userId
         )
     }
 
