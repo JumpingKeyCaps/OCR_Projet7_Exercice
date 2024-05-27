@@ -15,6 +15,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
+/**
+ *
+ * The ViewModel for the exercise Section
+ *
+ */
 @HiltViewModel
 class ExerciseViewModel @Inject constructor(
     private val getAllExercisesUseCase: GetAllExercisesUseCase,
@@ -28,6 +34,11 @@ class ExerciseViewModel @Inject constructor(
         loadAllExercises()
     }
 
+    /**
+     * Method to delete an exercise.
+     *
+     * @param exercise the exercise object to delete.
+     */
     fun deleteExercise(exercise: Exercise) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteExerciseUseCase.execute(exercise)
@@ -35,6 +46,9 @@ class ExerciseViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Method to load all the user exercises.
+     */
     private fun loadAllExercises() {
         viewModelScope.launch(Dispatchers.IO) {
 
@@ -47,6 +61,11 @@ class ExerciseViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Method to add a new exercises record.
+     *
+     * @param exercise the exercise to add.
+     */
     fun addNewExercise(exercise: Exercise) {
         viewModelScope.launch(Dispatchers.IO) {
             addNewExerciseUseCase.execute(exercise,USER_ID)
