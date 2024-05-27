@@ -2,7 +2,6 @@ package com.openclassrooms.arista.repositoryTests
 
 import com.openclassrooms.arista.data.dao.ExerciseDtoDao
 import com.openclassrooms.arista.data.entity.ExerciseDto
-import com.openclassrooms.arista.data.entity.SleepDto
 import com.openclassrooms.arista.data.repository.ExerciseRepository
 import com.openclassrooms.arista.domain.model.ExerciseCategory
 import junit.framework.TestCase

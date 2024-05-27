@@ -3,11 +3,9 @@ package com.openclassrooms.arista.repositoryTests
 import com.openclassrooms.arista.data.dao.UserDtoDao
 import com.openclassrooms.arista.data.entity.UserDto
 import com.openclassrooms.arista.data.repository.UserRepository
-import junit.framework.TestCase
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertNull
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
