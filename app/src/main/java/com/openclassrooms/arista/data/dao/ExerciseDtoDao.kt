@@ -22,7 +22,7 @@ interface ExerciseDtoDao {
     suspend fun insertExercise(exercise: ExerciseDto): Long
 
     /**
-     * Method to GET all exercise.
+     * Method to GET all exercise for an user.
      * @param ownerId the user id.
      * @return a Flow of the exercises List for an user
      */
