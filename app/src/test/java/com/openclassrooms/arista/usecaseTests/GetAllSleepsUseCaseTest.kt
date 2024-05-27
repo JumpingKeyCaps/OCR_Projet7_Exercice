@@ -1,9 +1,11 @@
-package com.openclassrooms.arista
+package com.openclassrooms.arista.usecaseTests
 
+import com.openclassrooms.arista.data.entity.SleepDto
 import com.openclassrooms.arista.data.repository.SleepRepository
-import com.openclassrooms.arista.domain.model.Sleep
 import com.openclassrooms.arista.domain.usecase.GetAllSleepsUseCase
 import junit.framework.TestCase
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -14,6 +16,8 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import java.time.LocalDateTime
+import java.time.ZoneId
+
 /**
  * Test Class for the use case   GetAllSleeps.
  */
@@ -26,7 +30,7 @@ class GetAllSleepsUseCaseTest {
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockitoAnnotations.openMocks(this)
         getAllSleepsUseCase = GetAllSleepsUseCase(sleepRepository)
     }
 
@@ -37,27 +41,29 @@ class GetAllSleepsUseCaseTest {
 
 
     /**
-     * Test if the use case return sleeps from the repository
+     * Test if the use case return sleepDto list flow from the repository
      */
     @Test
-    fun `when repository returns sleeps, use case should return them`() = runBlocking {
+    fun `when repository returns a flow of sleepDto list , use case should return it`() = runBlocking {
         // Arrange
-        val fakeSleep = listOf(
-            Sleep(
-                startTime = LocalDateTime.now(),
+        val fakeSleep =  flow { emit(listOf(
+            SleepDto(
+                startTime = (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()).toEpochMilli(),
                 duration = 30,
-                quality = 1
+                quality = 1,
+                ownerId = 1
             ),
-            Sleep(
-                startTime = LocalDateTime.now(),
+            SleepDto(
+                startTime = (LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()).toEpochMilli(),
                 duration = 50,
-                quality = 5
+                quality = 5,
+                ownerId = 1
             )
-        )
-        Mockito.`when`(sleepRepository.getAllSleep()).thenReturn(fakeSleep)
+        ))}
+        Mockito.`when`(sleepRepository.getAllSleep(1)).thenReturn(fakeSleep)
 
         // Act
-        val result = getAllSleepsUseCase.execute()
+        val result = getAllSleepsUseCase.execute(1)
 
         // Assert
         TestCase.assertEquals(fakeSleep, result)
@@ -69,11 +75,11 @@ class GetAllSleepsUseCaseTest {
     @Test
     fun `when repository returns empty list of sleep, use case should return empty list`() = runBlocking {
         // Arrange
-        Mockito.`when`(sleepRepository.getAllSleep()).thenReturn(emptyList())
+        Mockito.`when`(sleepRepository.getAllSleep(999)).thenReturn(flow { emit(emptyList()) })
         // Act
-        val result = getAllSleepsUseCase.execute()
+        val result = getAllSleepsUseCase.execute(999)
         // Assert
-        TestCase.assertTrue(result.isEmpty())
+        TestCase.assertTrue(result.first().isEmpty())
     }
 
 

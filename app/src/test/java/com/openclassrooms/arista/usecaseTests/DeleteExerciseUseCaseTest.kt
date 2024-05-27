@@ -1,12 +1,13 @@
-package com.openclassrooms.arista
+package com.openclassrooms.arista.usecaseTests
 
 import com.openclassrooms.arista.data.repository.ExerciseRepository
 import com.openclassrooms.arista.domain.model.Exercise
 import com.openclassrooms.arista.domain.model.ExerciseCategory
 import com.openclassrooms.arista.domain.usecase.DeleteExerciseUseCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
@@ -20,7 +21,7 @@ import org.mockito.kotlin.verify
 import java.time.LocalDateTime
 
 /**
- * Test Class for the use case   DeleteExercise.
+ * Test Class for the use case  DeleteExercise.
  */
 @RunWith(JUnit4::class)
 class DeleteExerciseUseCaseTest {
@@ -31,7 +32,7 @@ class DeleteExerciseUseCaseTest {
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockitoAnnotations.openMocks(this)
         deleteExerciseUseCase = DeleteExerciseUseCase(exerciseRepository)
     }
 
@@ -41,8 +42,9 @@ class DeleteExerciseUseCaseTest {
     }
 
     /**
-     * Test if the exercise is deleted in repository
+     * Test if the exercise is deleted from the repository
      */
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun deletes_exercise_from_repository_on_execute() {
         val testExercise = Exercise(
@@ -54,7 +56,7 @@ class DeleteExerciseUseCaseTest {
 
 
         runBlocking {
-            val testDispatcher = TestCoroutineDispatcher()
+            val testDispatcher = StandardTestDispatcher()
             Dispatchers.setMain(testDispatcher)
             deleteExerciseUseCase.execute(testExercise)
 

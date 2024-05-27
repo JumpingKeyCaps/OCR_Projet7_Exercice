@@ -1,12 +1,13 @@
-package com.openclassrooms.arista
+package com.openclassrooms.arista.usecaseTests
 
 import com.openclassrooms.arista.data.repository.ExerciseRepository
 import com.openclassrooms.arista.domain.model.Exercise
 import com.openclassrooms.arista.domain.model.ExerciseCategory
 import com.openclassrooms.arista.domain.usecase.AddNewExerciseUseCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
@@ -31,7 +32,7 @@ class AddNewExerciseUseCaseTest {
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockitoAnnotations.openMocks(this)
         addNewExerciseUseCase = AddNewExerciseUseCase(exerciseRepository)
     }
 
@@ -44,8 +45,9 @@ class AddNewExerciseUseCaseTest {
     /**
      * Test the exercise is added in repository
      */
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun `adds_exercise_to_repository_on_execute`() {
+    fun adds_exercise_to_repository_on_execute() {
         val testExercise = Exercise(
             startTime = LocalDateTime.now(),
             duration = 20,
@@ -54,12 +56,12 @@ class AddNewExerciseUseCaseTest {
         )
 
          runBlocking {
-            val testDispatcher = TestCoroutineDispatcher()
+            val testDispatcher = StandardTestDispatcher()
             Dispatchers.setMain(testDispatcher)
-            addNewExerciseUseCase.execute(testExercise)
+            addNewExerciseUseCase.execute(testExercise,1)
 
             // Verify  addExercise was well called on the repository with the correct argument
-            verify(exerciseRepository).addExercise(testExercise)
+            verify(exerciseRepository).addExercise(testExercise,1)
 
         }
 

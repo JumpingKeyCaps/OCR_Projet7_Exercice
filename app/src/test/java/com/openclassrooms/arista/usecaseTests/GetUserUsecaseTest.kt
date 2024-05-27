@@ -1,11 +1,14 @@
-package com.openclassrooms.arista
+package com.openclassrooms.arista.usecaseTests
 
+import com.openclassrooms.arista.data.entity.UserDto
 import com.openclassrooms.arista.data.repository.UserRepository
-import com.openclassrooms.arista.domain.model.User
 import com.openclassrooms.arista.domain.usecase.GetUserUsecase
 import junit.framework.TestCase
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertNotNull
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -29,7 +32,7 @@ class GetUserUsecaseTest {
 
     @Before
     fun setUp(){
-        MockitoAnnotations.initMocks(this)
+        MockitoAnnotations.openMocks(this)
         getUserUseCase = GetUserUsecase(userRepository)
     }
 
@@ -40,24 +43,29 @@ class GetUserUsecaseTest {
 
 
     /**
-     * Test if the use case return the user from the repository
+     * Test if the use case return the userDto object from the repository
      */
     @Test
-    fun `when repository returns user, use case should return him`() = runBlocking {
+    fun `when repository returns userDto, use case should return him`() = runBlocking {
         // Arrange
-        val expectedUser = User(
-            name = "John",
+        val expectedUserDto = UserDto(
+            id = 1,
+            nom = "John",
             email = "Jdoe@test.test",
             password = "Xch7893Huuieei9388ko9"
         )
-        val userFlow = flow { emit(expectedUser) } // Create a Flow directly
-        `when`(userRepository.getUser()).thenReturn(userFlow) // Mock the Flow
+        val userFlow = flow { emit(expectedUserDto) } // Create a Flow directly
+        `when`(userRepository.getUser(1)).thenReturn(userFlow) // Mock the Flow
 
         // Act
-        val result = getUserUseCase.execute() // Use case should still return a User
+        val result = getUserUseCase.execute(1) // Use case should still return a UserDto
+
+        val resultList = result.toList() // Convert Flow to List
+        val emittedValue = resultList.firstOrNull()
 
         // Assert
-        assertEquals(expectedUser, result) // Use assertEquals for clear comparison
+        assertNotNull(emittedValue)
+        assertEquals(expectedUserDto, emittedValue)
 
     }
 
@@ -68,11 +76,12 @@ class GetUserUsecaseTest {
     @Test
     fun `when repository returns null , use case should return null`() = runBlocking {
         // Arrange
-        Mockito.`when`(userRepository.getUser()).thenReturn(null)
+        `when`(userRepository.getUser(999)).thenReturn(flow { emit(null) }) // Mock with Flow of null
         // Act
-        val result = getUserUseCase.execute()
+        val result = getUserUseCase.execute(999)
         // Assert
-        TestCase.assertTrue(result == null)
+       // assertNull(result)
+        TestCase.assertTrue(result.first() == null)
     }
 
 
