@@ -5,7 +5,7 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 /**
- *
+ *  Exercise data object to an exercise record.
  */
 data class Exercise(
     val id: Long? = null,
@@ -17,6 +17,7 @@ data class Exercise(
 
     /**
      * Methode to convert an Exercise object to an Exercise Dto
+     * @param userId the user id  who own the exercise
      * @return an exerciseDto
      */
     fun toDto(userId: Long): ExerciseDto {
@@ -36,7 +37,7 @@ data class Exercise(
         /**
          * Methode to convert an ExerciseDto to an Exercise object
          * @param dto the exercise dto to convert in exercise object
-         * @return an Exercise object.
+         * @return an Exercise data object.
          */
         fun fromDto(dto: ExerciseDto): Exercise {
             val instant = Instant.ofEpochMilli(dto.startTime)
