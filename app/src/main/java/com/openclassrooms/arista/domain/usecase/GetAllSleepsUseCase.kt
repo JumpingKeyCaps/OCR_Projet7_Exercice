@@ -2,7 +2,6 @@ package com.openclassrooms.arista.domain.usecase
 
 import com.openclassrooms.arista.data.entity.SleepDto
 import com.openclassrooms.arista.data.repository.SleepRepository
-import com.openclassrooms.arista.domain.model.Sleep
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
