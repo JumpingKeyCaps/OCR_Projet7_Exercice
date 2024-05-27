@@ -10,7 +10,6 @@ import javax.inject.Inject
  * User Repository -
  * used to provide all data of App User
  *
- * @param userDao the Dao to use with this repository.
  */
 class UserRepository @Inject constructor(private val userDao: UserDtoDao) {
 
