@@ -4,11 +4,12 @@ import com.openclassrooms.arista.data.dao.SleepDtoDao
 import com.openclassrooms.arista.data.entity.SleepDto
 import com.openclassrooms.arista.domain.model.Sleep
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 /**
  * Repository for the Sleep records
  */
-class SleepRepository(private val sleepDao: SleepDtoDao) {
+class SleepRepository @Inject constructor(private val sleepDao: SleepDtoDao) {
 
     /**
      * Method to get All sleep record of an user.
