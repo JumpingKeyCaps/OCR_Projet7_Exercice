@@ -25,7 +25,7 @@ interface SleepDtoDao {
     /**
      * Method to GET all sleep for a specific user id.
      * @param userId the user id.
-     * @return a Flow of the sleep List
+     * @return a Flow of the SleepDto List
      */
     @Query("SELECT * FROM sleep WHERE owner_id = :userId")
     fun getAllSleep(userId: Long): Flow<List<SleepDto>>
