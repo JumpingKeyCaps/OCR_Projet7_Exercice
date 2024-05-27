@@ -5,12 +5,16 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 
+/**
+ * Sleep data object to a sleep record.
+ */
 data class Sleep(
     @JvmField var startTime: LocalDateTime,
     var duration: Int,
     var quality: Int){
     /**
      * Methode to convert an sleep object to an sleep Dto
+     * @param userId the user id to use
      * @return an sleepDto
      */
     fun toDto(userId: Long): SleepDto {
@@ -31,7 +35,7 @@ data class Sleep(
         /**
          * Methode to convert a SleepDao to an sleep object
          * @param dto the sleep dto to convert in sleep object
-         * @return an sleep object.
+         * @return an sleep object
          */
         fun fromDto(dto: SleepDto): Sleep {
             val instant = Instant.ofEpochMilli(dto.startTime)
