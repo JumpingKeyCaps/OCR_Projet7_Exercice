@@ -12,8 +12,8 @@ import javax.inject.Inject
 class GetAllSleepsUseCase @Inject constructor(private val sleepRepository: SleepRepository) {
 
     /**
-     * Method to get all sleep record of the user (by id or by default).
-     * @param userId (optional) the user id
+     * Method to get all sleep record of the user.
+     * @param userId the user id
      * @return a Flow of the list of SleepDto
      */
     fun execute(userId: Long): Flow<List<SleepDto>> {
