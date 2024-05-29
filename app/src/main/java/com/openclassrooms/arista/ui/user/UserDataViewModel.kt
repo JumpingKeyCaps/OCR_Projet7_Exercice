@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,19 +25,16 @@ class UserDataViewModel @Inject constructor(private val getUserUsecase: GetUserU
 
     init {
         //Load user Profile
-        loadUserData(USER_ID)   // load the default user profile for the default config USER_ID
-
+        loadUserData(USER_ID)   // load the default user profile via the default config USER_ID
     }
-
 
     /**
      * Method to load the user data with an ID (or the 1st user in bdd by default).
      * @param id  the id of the user, can be void (null by default).
      */
-    private fun loadUserData(id: Long) { // id is an optional parameter
+     private fun loadUserData(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            val flow = getUserUsecase.execute(id)
-
+            val flow = getUserUsecase.execute(id).conflate()
             // Get the User from the use case returned flow.
             flow.collect { userDto ->
                 val user = userDto?.let { User.fromDto(it) }
@@ -44,11 +42,5 @@ class UserDataViewModel @Inject constructor(private val getUserUsecase: GetUserU
             }
         }
     }
-
-
-
-
-
-
 
 }
