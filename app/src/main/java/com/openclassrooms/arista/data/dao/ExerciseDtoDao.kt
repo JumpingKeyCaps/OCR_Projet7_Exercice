@@ -1,6 +1,7 @@
 package com.openclassrooms.arista.data.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.openclassrooms.arista.data.entity.ExerciseDto
@@ -31,10 +32,10 @@ interface ExerciseDtoDao {
 
     /**
      * Method to DELETE an exercise.
-     * @param id the Exercise dto id to delete.
+     * @param exercise the Exercise dto to delete.
      */
-    @Query("DELETE FROM exercise WHERE id = :id")
-    suspend fun deleteExerciseById(id: Long)
+    @Delete
+    suspend fun deleteExercise(exercise: ExerciseDto)
 
 
 }
