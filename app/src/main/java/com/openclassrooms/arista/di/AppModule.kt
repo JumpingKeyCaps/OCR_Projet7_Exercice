@@ -1,7 +1,9 @@
 package com.openclassrooms.arista.di
 
 import android.content.Context
+import androidx.room.Room
 import com.openclassrooms.arista.data.AppDatabase
+import com.openclassrooms.arista.data.DatabasePrepopulateCallback
 import com.openclassrooms.arista.data.dao.ExerciseDtoDao
 import com.openclassrooms.arista.data.dao.SleepDtoDao
 import com.openclassrooms.arista.data.dao.UserDtoDao
@@ -18,10 +20,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import javax.inject.Singleton
 
+/**
+ * App module used by Hilt to inject dependencies
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
-
 
 
     @Provides
@@ -30,8 +34,14 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext context: Context, coroutineScope: CoroutineScope): AppDatabase {
-        return AppDatabase.getDatabase(context, coroutineScope)
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
+       val callback = provideDatabasePrepopulateCallback()
+       return Room.databaseBuilder(context, AppDatabase::class.java, "AristaDB").addCallback(callback).build()
+    }
+
+    @Provides
+    fun provideDatabasePrepopulateCallback(): DatabasePrepopulateCallback {
+        return DatabasePrepopulateCallback()
     }
 
     @Provides
