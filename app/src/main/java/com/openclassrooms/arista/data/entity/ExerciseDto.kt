@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
  *  Data Class used by Room to create the exercise DataBase table and ease the CRUD operation on it.
  */
 
-@Entity(tableName = "exercise",foreignKeys = [ForeignKey(entity = UserDto::class, parentColumns = ["id"], childColumns = ["owner_id"])])
+@Entity(tableName = "exercise",foreignKeys = [ForeignKey(entity = UserDto::class, parentColumns = ["id"], childColumns = ["owner_id"],onDelete = ForeignKey.CASCADE)])
 data class ExerciseDto (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
