@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
  */
 
 
-@Entity(tableName = "sleep",foreignKeys = [ForeignKey(entity = UserDto::class, parentColumns = ["id"], childColumns = ["owner_id"])])
+@Entity(tableName = "sleep",foreignKeys = [ForeignKey(entity = UserDto::class, parentColumns = ["id"], childColumns = ["owner_id"],onDelete = ForeignKey.CASCADE)])
 data class SleepDto (
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
