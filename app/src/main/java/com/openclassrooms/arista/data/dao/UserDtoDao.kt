@@ -1,6 +1,7 @@
 package com.openclassrooms.arista.data.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.openclassrooms.arista.data.entity.UserDto
@@ -34,10 +35,10 @@ interface UserDtoDao {
 
     /**
      * Method to DELETE a user.
-     * @param id the user dto id to delete.
+     * @param user the user dto to delete.
      */
-    @Query("DELETE FROM user WHERE id = :id")
-    suspend fun deleteUserById(id: Long)
+    @Delete
+    suspend fun deleteUser(user: UserDto)
 
 
 }
