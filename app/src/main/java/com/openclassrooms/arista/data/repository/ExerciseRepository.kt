@@ -37,11 +37,10 @@ class ExerciseRepository @Inject constructor(private val exerciseDao: ExerciseDt
      * @param exercise the exercise data object to delete.
      */
     suspend fun deleteExercise(exercise: Exercise) {
-        // If there is no id, you can raise an exception and catch it in the use case and viewmodel
+
         exercise.id?.let {
-            exerciseDao.deleteExerciseById(
-                id = exercise.id,
-            )
+            exerciseDao.deleteExercise(exercise.toDto(exercise.id))
         }
+
     }
 }
