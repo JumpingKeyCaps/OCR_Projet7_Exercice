@@ -20,15 +20,15 @@ class DatabasePrepopulateCallback(private val coroutineScope:CoroutineScope) : R
      */
     override fun onCreate(db: SupportSQLiteDatabase) {
         super.onCreate(db)
-        //(work only if prepopulate method is called outside a coroutine)
-
         coroutineScope.launch {
             prepopulateDatabase(db)
         }
-
-
     }
 
+    /**
+     * Method to Pre-populate the database.
+     * @param db the database reference to populate.
+     */
      private fun prepopulateDatabase(db: SupportSQLiteDatabase){
         //Start the database transaction
         db.beginTransaction()
