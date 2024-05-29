@@ -4,13 +4,15 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
 /**
  * The Callback used to prepopulate the database.
  */
-class DatabasePrepopulateCallback() : RoomDatabase.Callback() {
+class DatabasePrepopulateCallback(private val coroutineScope:CoroutineScope) : RoomDatabase.Callback() {
 
     /**
      * Overriding the onCreate Methode to prepopulate the Database on his call.
@@ -19,7 +21,12 @@ class DatabasePrepopulateCallback() : RoomDatabase.Callback() {
     override fun onCreate(db: SupportSQLiteDatabase) {
         super.onCreate(db)
         //(work only if prepopulate method is called outside a coroutine)
-        prepopulateDatabase(db)
+
+        coroutineScope.launch {
+            prepopulateDatabase(db)
+        }
+
+
     }
 
      private fun prepopulateDatabase(db: SupportSQLiteDatabase){
