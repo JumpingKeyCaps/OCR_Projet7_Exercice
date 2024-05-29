@@ -1,6 +1,7 @@
 package com.openclassrooms.arista.data.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.openclassrooms.arista.data.entity.SleepDto
@@ -32,10 +33,10 @@ interface SleepDtoDao {
 
     /**
      * Method to DELETE a sleep.
-     * @param id the Sleep dto id to delete.
+     * @param sleep the Sleep dto to delete.
      */
-    @Query("DELETE FROM sleep WHERE id = :id")
-    suspend fun deleteSleepById(id: Long)
+    @Delete
+    suspend fun deleteSleep(sleep: SleepDto)
 
 
 
