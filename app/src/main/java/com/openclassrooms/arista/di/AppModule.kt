@@ -30,18 +30,18 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideCoroutineScope(): CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+    fun provideCoroutineScope(): CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
-       val callback = provideDatabasePrepopulateCallback()
+    fun provideAppDatabase(@ApplicationContext context: Context,coroutineScope: CoroutineScope): AppDatabase {
+       val callback = provideDatabasePrepopulateCallback(coroutineScope)
        return Room.databaseBuilder(context, AppDatabase::class.java, "AristaDB").addCallback(callback).build()
     }
 
     @Provides
-    fun provideDatabasePrepopulateCallback(): DatabasePrepopulateCallback {
-        return DatabasePrepopulateCallback()
+    fun provideDatabasePrepopulateCallback(coroutineScope: CoroutineScope): DatabasePrepopulateCallback {
+        return DatabasePrepopulateCallback(coroutineScope)
     }
 
     @Provides
